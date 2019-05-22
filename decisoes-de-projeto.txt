@@ -1,0 +1,7 @@
+Para evitar tornar-se um pouco mais fácil a listagem de filmes por aluguel, decidi acrescentar um método à interface FilmeDAO, chamado 'findBy'.
+O método 'findBy' fazer a relação entre 3 tabelas(en_filme, re_aluguel_filme,en_aluguel) para assim conseguir retornar a lista de filmes por id do aluguel,
+tornando o desenvolvimento melhorado.
+Por conta de não encontrar um meio de inserir linhas nas tabelas en_aluguel e re_aluguel_filme, tive que fazer do jeito convencional: Inserindo primeiramente o
+aluguel em sua respectiva tabela e após isso fazendo um forEach nos filmes do aluguel(batch) e adicionando-os na tabela re_aluguel_filme, isso na classe AluguelDAOImpl.
+Com isso, o método de edição foi arquitetado no mesmo modo: dou update no en_aluguel e faço um forEach nos filmes e  adiciono num batch e dou update para a tabela
+re_aluguel_filme.

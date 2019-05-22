@@ -1,0 +1,31 @@
+Seu nome: Vinícius Coelho de Abreu
+
+1) SELECT * FROM en_filme ORDER BY data_lancamento ASC LIMIT 1;
+
+2) SELECT en_cliente.id_cliente, en_cliente.nome, 
+(SELECT COUNT(*) FROM en_aluguel
+WHERE id_cliente=en_cliente.id_cliente) as alugueis  
+FROM en_cliente
+ORDER BY alugueis ASC;
+
+3) SELECT e_c.id_cliente, 
+       e_c.nome, 
+       (SELECT Count(*) 
+        FROM   en_aluguel 
+        WHERE  id_cliente = e_c.id_cliente 
+               AND Date_part('year', data_aluguel) = 
+                   Date_part('year', e_a.data_aluguel)) AS alugueis, 
+       (SELECT Sum(en_aluguel.valor) 
+        FROM   en_aluguel 
+        WHERE  id_cliente = e_c.id_cliente 
+               AND Date_part('year', data_aluguel) = 
+                   Date_part('year', e_a.data_aluguel)) AS total_gasto, 
+       Date_part('year', e_a.data_aluguel)              AS ano 
+FROM   en_cliente e_c 
+       JOIN en_aluguel e_a 
+         ON e_a.id_cliente = e_c.id_cliente 
+GROUP  BY Date_part('year', e_a.data_aluguel), 
+          alugueis, 
+          total_gasto, 
+          e_c.id_cliente 
+ORDER  BY total_gasto DESC; 
